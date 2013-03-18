@@ -1,3 +1,20 @@
+Simmetrica
+==========
+Library for collecting, aggregating and visualizing event metrics as timeseries
+data
+
+Quickstart
+----------
+Todo...
+
+Todo
+----
+* Command line interface for pushing and querying data
+* Web interface for visualizing metrics
+* Rest API
+
+License
+-------
 Copyright (c) 2013 Osman Ungur
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
