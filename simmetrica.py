@@ -5,11 +5,6 @@ import time
 
 from redis import StrictRedis, ConnectionError
 
-
-class Config(object):
-    pass
-
-
 class Simmetrica(object):
 
     resolutions = {
@@ -37,7 +32,9 @@ class Simmetrica(object):
         key = self.get_event_key(event, resolution)
         timestamps = self.get_timestamps_for_query(
             start, end, self.resolutions[resolution])
-        return self.backend.hmget(key, timestamps)
+        values = self.backend.hmget(key, timestamps)
+        for timestamp, value in zip(timestamps, values):
+            yield timestamp, value or 0
 
     def get_timestamps_for_query(self, start, end, resolution):
         return range(self.round_time(start, resolution),
