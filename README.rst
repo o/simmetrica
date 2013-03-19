@@ -1,3 +1,5 @@
+.. image:: https://travis-ci.org/import/simmetrica.png?branch=master
+
 Simmetrica
 ==========
 Library for collecting, aggregating and visualizing event metrics as timeseries
@@ -5,7 +7,7 @@ data
 
 Quickstart
 ----------
-Todo...
+TODO
 
 Todo
 ----
