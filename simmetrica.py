@@ -36,7 +36,7 @@ class Simmetrica(object):
     def query(self, event, start, end, resolution='5min'):
         key = self.get_event_key(event, resolution)
         timestamps = self.get_timestamps_for_query(
-            start, end, self.__class__.resolutions[resolution])
+            start, end, self.resolutions[resolution])
         return self.backend.hmget(key, timestamps)
 
     def get_timestamps_for_query(self, start, end, resolution):
@@ -46,7 +46,7 @@ class Simmetrica(object):
 
     def get_timestamps_for_push(self, now=None):
         now = now or int(time.time())
-        for resolution, timestamp in self.__class__.resolutions.items():
+        for resolution, timestamp in self.resolutions.items():
             yield resolution, self.round_time(now, timestamp)
 
     def round_time(self, time, resolution):
