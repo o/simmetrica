@@ -2,8 +2,6 @@ import mock
 import unittest
 import sys
 
-sys.path.append('../')
-
 from simmetrica import Simmetrica
 
 
@@ -15,6 +13,16 @@ class TestSimmetrica(unittest.TestCase):
             hincrby = StrictRedis.return_value.pipeline.return_value.hincrby
             simmetrica.push('foo')
             self.assertTrue(hincrby.called)
+
+    def test_get_timestamps_for_query(self):
+        simmetrica = Simmetrica()
+        timestamps = simmetrica.get_timestamps_for_query(1363707480, 1363707780, 60)
+        self.assertEqual(timestamps, [1363707480, 1363707540, 1363707600, 1363707660, 1363707720])
+
+    def test_get_timestamps_for_push(self):
+        simmetrica = Simmetrica()
+        timestamps = list(simmetrica.get_timestamps_for_push(1363707716))
+        self.assertEqual(timestamps, [('week', 1363219200), ('hour', 1363705200), ('min', 1363707660), ('30min', 1363707000), ('5min', 1363707600), ('year', 1356048000), ('day', 1363651200), ('month', 1363392000)])
 
     def test_round_time(self):
         simmetrica = Simmetrica()
