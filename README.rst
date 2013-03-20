@@ -11,7 +11,6 @@ TODO
 
 Todo
 ----
-* Command line interface for pushing and querying data
 * Web interface for visualizing metrics
 
 License
