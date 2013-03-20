@@ -1,4 +1,7 @@
-from flask import Flask, jsonify
+import json
+from collections import OrderedDict
+
+from flask import Flask, Response
 from simmetrica import Simmetrica
 
 app = Flask(__name__)
@@ -17,8 +20,8 @@ def push(event, increment):
 @app.route('/query/<event>/<int:start>/<int:end>/<resolution>')
 def query(event, start, end, resolution):
     result = simmetrica.query(event, start, end, resolution)
-    response = jsonify(result)
-    return response
+    response = json.dumps(OrderedDict(result))
+    return Response(response, status=200, mimetype='application/json')
 
 if __name__ == '__main__':
     app.run()
