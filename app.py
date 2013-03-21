@@ -11,7 +11,6 @@ from flask import Flask, Response, request
 from simmetrica import Simmetrica
 
 app = Flask(__name__)
-app.debug = True
 simmetrica = Simmetrica()
 
 @app.route('/')
@@ -37,11 +36,12 @@ def graph():
     stream = file('config.yml')
     config = yaml.load(stream)
     result = []
+    now = int(time.time())
     for section in config['graphs']:
-        start = get_seconds_from_relative_time(section.get('timespan', '1 day'))
+        timespan_as_seconds = get_seconds_from_relative_time(section.get('timespan', '1 day'))
         events = []
         for event in section['events']:
-            data = simmetrica.query(event['name'], time.time() - start, time.time())
+            data = simmetrica.query(event['name'], now - timespan_as_seconds, now, section.get('resolution', Simmetrica.DEFAULT_RESOLUTION))
             series = [ dict(x=timestamp, y=value) for timestamp, value in data]
             events.append(dict(
                 name=event['name'],
