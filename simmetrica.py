@@ -7,6 +7,9 @@ from redis import StrictRedis, ConnectionError
 
 class Simmetrica(object):
 
+    DEFAULT_INCREMENT = 1
+    DEFAULT_RESOLUTION = '5min'
+
     resolutions = {
         'min': 60,
         '5min': 300,
@@ -21,14 +24,14 @@ class Simmetrica(object):
     def __init__(self, host='localhost', port=6379, db=0):
         self.backend = StrictRedis(host=host, port=port, db=db)
 
-    def push(self, event, increment=1):
+    def push(self, event, increment=DEFAULT_INCREMENT, now=None):
         pipe = self.backend.pipeline()
-        for resolution, timestamp in self.get_timestamps_for_push():
+        for resolution, timestamp in self.get_timestamps_for_push(now):
             key = self.get_event_key(event, resolution)
             pipe.hincrby(key, timestamp, increment)
         return pipe.execute()
 
-    def query(self, event, start, end, resolution='5min'):
+    def query(self, event, start, end, resolution=DEFAULT_RESOLUTION):
         key = self.get_event_key(event, resolution)
         timestamps = self.get_timestamps_for_query(
             start, end, self.resolutions[resolution])
@@ -41,7 +44,7 @@ class Simmetrica(object):
                      self.round_time(end, resolution),
                      resolution)
 
-    def get_timestamps_for_push(self, now=None):
+    def get_timestamps_for_push(self, now):
         now = now or int(time.time())
         for resolution, timestamp in self.resolutions.items():
             yield resolution, self.round_time(now, timestamp)
