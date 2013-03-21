@@ -1,0 +1,17 @@
+graphs:
+    - title: Exceptions
+      timespan: 12 hour
+      events:
+          - name: exception_main
+            title: Main API
+          - name: exception_frontend
+            title: Frontend
+            
+    - title: Invalid login attempts
+      type: area
+      timespan: 1 hour
+      resolution: min
+      events:
+          - name: invalid_login
+            title: Invalid logins
+                        
