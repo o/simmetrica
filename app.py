@@ -2,29 +2,79 @@
 # -*- coding: utf-8 -*-
 
 import json
+import yaml
+import time
+import re
 from collections import OrderedDict
 
-from flask import Flask, Response
+from flask import Flask, Response, request
 from simmetrica import Simmetrica
 
 app = Flask(__name__)
+app.debug = True
 simmetrica = Simmetrica()
 
 @app.route('/')
 def index():
     return 'Index page'
 
-@app.route('/push/<event>/<increment>')
-def push(event, increment):
-    simmetrica.push(event, increment)
+@app.route('/push/<event>')
+def push(event):
+    increment = request.args.get('increment') or Simmetrica.DEFAULT_INCREMENT
+    now = int(request.args.get('now')) if request.args.get('now') else None
+    simmetrica.push(event, increment, now)
     return 'ok'
 
-@app.route('/query/<event>/<int:start>/<int:end>', defaults={'resolution': '5min'})
-@app.route('/query/<event>/<int:start>/<int:end>/<resolution>')
-def query(event, start, end, resolution):
+@app.route('/query/<event>/<int:start>/<int:end>')
+def query(event, start, end):
+    resolution = request.args.get('resolution') or Simmetrica.DEFAULT_RESOLUTION
     result = simmetrica.query(event, start, end, resolution)
     response = json.dumps(OrderedDict(result))
     return Response(response, status=200, mimetype='application/json')
+
+@app.route('/graph')
+def graph():
+    stream = file('config.yml')
+    config = yaml.load(stream)
+    result = []
+    for section in config['graphs']:
+        start = get_seconds_from_relative_time(section.get('timespan', '1 day'))
+        events = []
+        for event in section['events']:
+            data = simmetrica.query(event['name'], time.time() - start, time.time())
+            series = [ dict(x=timestamp, y=value) for timestamp, value in data]
+            events.append(dict(
+                name=event['name'],
+                title=event.get('title', event['name']),
+                data=series
+            ))
+        result.append(dict(
+            title=section.get('title'),
+            colorscheme=section.get('colorscheme', 'classic9'),
+            type=section.get('type', 'area'),
+            interpolation=section.get('interpolation', 'cardinal'),
+            resolution=section.get('resolution', Simmetrica.DEFAULT_RESOLUTION),
+            events=events
+        ))
+    response = json.dumps(result, indent=2)
+    return Response(response, status=200, mimetype='application/json')
+
+unit_multipliers = {
+    'minute' : 60,
+    'hour' : 3600,
+    'day' : 86400,
+    'week' : 86400 * 7,
+    'month': 86400 * 30,
+    'year' : 86400 * 365
+}
+
+def get_seconds_from_relative_time(string):
+    for unit in unit_multipliers.keys():
+        if string.endswith(unit):
+            match = re.match(r"(\d+)+\s(\w+)", string)
+            if match:
+                return unit_multipliers[unit] * int(match.group(1))
+    else: raise ValueError("Invalid unit '%s'" % string)
 
 if __name__ == '__main__':
     app.run()
