@@ -11,7 +11,8 @@ subparsers = parser.add_subparsers(dest='subparser_name')
 
 push_parser = subparsers.add_parser('push')
 push_parser.add_argument('event')
-push_parser.add_argument('--increment', default=1, type=int)
+push_parser.add_argument('--increment', default=Simmetrica.DEFAULT_INCREMENT, type=int)
+push_parser.add_argument('--now', type=int)
 
 query_parser = subparsers.add_parser('query')
 query_parser.add_argument('event')
@@ -24,7 +25,7 @@ args = parser.parse_args()
 simmetrica = Simmetrica()
 
 if args.subparser_name == 'push':
-    simmetrica.push(args.event, args.increment)
+    simmetrica.push(args.event, args.increment, args.now)
     print 'ok'
 
 if args.subparser_name == 'query':
