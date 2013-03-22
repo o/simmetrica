@@ -1,30 +1,44 @@
 graphs:
+      # Title of your graph, mandatory
     - title: Exceptions
-      timespan: 12 hour
-      colorscheme: cool
+      # How many old data will be shown. Examples : 35 minute, 6 hour, 2 week. Default: 1 day
+      timespan: 1 hour
+      # Color scheme of graph. Possible values: [classic9, colorwheel, cool, munin, spectrum14, spectrum2000, spectrum2001]. Default: colorwheel
+      colorscheme: spectrum14
+      # Type of chart. Possible values: [area, stack, bar, line, scatterplot]. Default: area
       type: bar
+      # Line smoothing / interpolation method. Possible values : [linear, step-after, cardinal, basis], Default: cardinal
+      interpolation: cardinal
+      # Resolution of values. Possible values: [min, 5min, 30min, hour, day, week, month, year]. Default: 5min
+      resolution: min
+      # Size of graph. Possible values: [S, M, L, XL]. Default: M
+      size: XL
+      # Offset type. Possible values: [zero, wiggle, expand, value]
+      offset: value
+      # Event definitions
       events:
+            # Event name
           - name: exception_main
+            # This will be shown in legend
             title: Main API
           - name: exception_frontend
             title: Frontend
 
-    - title: Foo
-      size: M
-      events:
-          - name: foo
-
-    - title: Invalid login attempts
-      type: line
-      interpolation: step-after
-      timespan: 1 hour
-      resolution: min
+    - title: Invalid logins
       size: L
+      colorscheme: spectrum2000
+      timespan: 6 hour
+      type: scatterplot
       events:
-          - name: invalid_login
-            title: Invalid logins
+          - name: invalid_login_api_v1
+            title: API V1
+          - name: invalid_login_api_v2
+            title: API V2
 
-    - title: Bar
+    - title: Payments processed
       size: S
+      type: line
+      resolution: hour
+      colorscheme: munin
       events:
-          - name: bar
+          - name: payments_processed
