@@ -1,0 +1,36 @@
+body {
+  background-color: #F3E0BD;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  font: 16px/26px 'Lato',serif;
+  color: #333;
+}
+header,footer,#graphs {
+  width: 1200px;
+  margin: 20px auto;
+}
+h1 {
+  font-size: 2em;
+}
+h3 {
+  font-size: 1.5em;
+}
+.graph-section {
+  float: left;
+  margin: 20px 0px;
+}
+.graph-container .y-axis {
+  width: 50px;
+  float: left;
+}
+.graph-container .graph {
+  float: left;
+}
+#top-title,.graph-title {
+  font-weight: normal;
+  padding-left: 30px;
+}
+.rickshaw_legend {
+  background: transparent;
+  color: #333;
+}

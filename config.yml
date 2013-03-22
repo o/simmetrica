@@ -1,17 +1,30 @@
 graphs:
     - title: Exceptions
       timespan: 12 hour
+      colorscheme: cool
+      type: bar
       events:
           - name: exception_main
             title: Main API
           - name: exception_frontend
             title: Frontend
-            
+
+    - title: Foo
+      size: M
+      events:
+          - name: foo
+
     - title: Invalid login attempts
-      type: area
+      type: line
+      interpolation: step-after
       timespan: 1 hour
       resolution: min
+      size: L
       events:
           - name: invalid_login
             title: Invalid logins
-                        
+
+    - title: Bar
+      size: S
+      events:
+          - name: bar

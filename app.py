@@ -7,15 +7,16 @@ import time
 import re
 from collections import OrderedDict
 
-from flask import Flask, Response, request
+from flask import Flask, Response, request, render_template
 from simmetrica import Simmetrica
 
 app = Flask(__name__)
+app.debug = True
 simmetrica = Simmetrica()
 
 @app.route('/')
 def index():
-    return 'Index page'
+    return render_template('index.html')
 
 @app.route('/push/<event>')
 def push(event):
@@ -42,7 +43,7 @@ def graph():
         events = []
         for event in section['events']:
             data = simmetrica.query(event['name'], now - timespan_as_seconds, now, section.get('resolution', Simmetrica.DEFAULT_RESOLUTION))
-            series = [ dict(x=timestamp, y=value) for timestamp, value in data]
+            series = [ dict(x=timestamp, y=int(value)) for timestamp, value in data]
             events.append(dict(
                 name=event['name'],
                 title=event.get('title', event['name']),
@@ -50,11 +51,14 @@ def graph():
             ))
         result.append(dict(
             title=section.get('title'),
-            colorscheme=section.get('colorscheme', 'classic9'),
+            colorscheme=section.get('colorscheme', 'colorwheel'),
             type=section.get('type', 'area'),
             interpolation=section.get('interpolation', 'cardinal'),
             resolution=section.get('resolution', Simmetrica.DEFAULT_RESOLUTION),
-            events=events
+            size=section.get('size', 'M'),
+            offset=section.get('offset', 'value'),
+            events=events,
+            identifier='graph-' + str(id(events))
         ))
     response = json.dumps(result, indent=2)
     return Response(response, status=200, mimetype='application/json')

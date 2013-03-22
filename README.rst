@@ -11,7 +11,8 @@ TODO
 
 Todo
 ----
-* Web interface for visualizing metrics
+* More strict error handling
+* Configurable redis settings for web and cli interface
 
 License
 -------
