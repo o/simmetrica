@@ -34,3 +34,7 @@ h3 {
   background: transparent;
   color: #333;
 }
+#loading, #errormessage {
+  font-weight: normal;
+  text-align: center;
+}

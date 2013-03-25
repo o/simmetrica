@@ -21,14 +21,15 @@ function App() {
     $.get('/graph', function (data) {
       domBuilders.renderGraphs(data);
     }).error(function () {
-      domBuilders.renderError()
+      domBuilders.renderError();
     });
   };
 
   domBuilders.renderGraphs = function (data) {
     $.each(data, function (index, section) {
-      $('#graphs').append(partialViews.graphSection(section))
-      helpers.renderGraph(section)
+      $('#loading').remove();
+      $('#graphs').append(partialViews.graphSection(section));
+      helpers.renderGraph(section);
     });
   };
 
@@ -37,7 +38,8 @@ function App() {
   };
 
   domBuilders.renderError = function () {
-    //
+    $('#loading').remove();
+    $('#errormessage').text('An error occured when loading graphs.');
   };
 
   helpers.renderGraph = function (section) {
