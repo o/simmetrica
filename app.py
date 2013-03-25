@@ -37,7 +37,7 @@ def graph():
     stream = file('config.yml')
     config = yaml.load(stream)
     result = []
-    now = int(time.time())
+    now = simmetrica.get_current_timestamp()
     for section in config['graphs']:
         timespan_as_seconds = get_seconds_from_relative_time(section.get('timespan', '1 day'))
         events = []

@@ -9,6 +9,9 @@ class Simmetrica(object):
 
     DEFAULT_INCREMENT = 1
     DEFAULT_RESOLUTION = '5min'
+    DEFAULT_REDIS_HOST = 'localhost'
+    DEFAULT_REDIS_PORT = 6379
+    DEFAULT_REDIS_DB = 0
 
     resolutions = {
         'min': 60,
@@ -45,7 +48,7 @@ class Simmetrica(object):
                      resolution)
 
     def get_timestamps_for_push(self, now):
-        now = now or int(time.time())
+        now = now or self.get_current_timestamp()
         for resolution, timestamp in self.resolutions.items():
             yield resolution, self.round_time(now, timestamp)
 
@@ -54,3 +57,6 @@ class Simmetrica(object):
 
     def get_event_key(self, event, resolution):
         return 'simmetrica:{0}:{1}'.format(event, resolution)
+
+    def get_current_timestamp(self):
+        return int(time.time())
