@@ -13,7 +13,7 @@ class Simmetrica(object):
     resolutions = {
         'min': 60,
         '5min': 300,
-        '30min': 1800,
+        '15min': 900,
         'hour': 3600,
         'day': 86400,
         'week': 86400 * 7,

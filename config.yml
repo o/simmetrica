@@ -9,7 +9,7 @@ graphs:
       type: bar
       # Line smoothing / interpolation method. Possible values : [linear, step-after, cardinal, basis], Default: cardinal
       interpolation: cardinal
-      # Resolution of values. Possible values: [min, 5min, 30min, hour, day, week, month, year]. Default: 5min
+      # Resolution of values. Possible values: [min, 5min, 15min, hour, day, week, month, year]. Default: 5min
       resolution: min
       # Size of graph. Possible values: [S, M, L, XL]. Default: M
       size: XL

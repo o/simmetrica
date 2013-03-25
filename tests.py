@@ -22,7 +22,7 @@ class TestSimmetrica(unittest.TestCase):
     def test_get_timestamps_for_push(self):
         simmetrica = Simmetrica()
         timestamps = list(simmetrica.get_timestamps_for_push(1363707716))
-        self.assertEqual(timestamps, [('week', 1363219200), ('hour', 1363705200), ('min', 1363707660), ('30min', 1363707000), ('5min', 1363707600), ('year', 1356048000), ('day', 1363651200), ('month', 1363392000)])
+        self.assertEqual(timestamps, [('week', 1363219200), ('hour', 1363705200), ('min', 1363707660), ('month', 1363392000), ('5min', 1363707600), ('year', 1356048000), ('day', 1363651200), ('15min', 1363707000)])
 
     def test_round_time(self):
         simmetrica = Simmetrica()
