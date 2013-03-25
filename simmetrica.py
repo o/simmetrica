@@ -24,8 +24,12 @@ class Simmetrica(object):
         'year': 86400 * 365
     }
 
-    def __init__(self, host='localhost', port=6379, db=0):
-        self.backend = StrictRedis(host=host, port=port, db=db)
+    def __init__(self, host=None, port=None, db=None):
+        self.backend = StrictRedis(
+            host=host or self.DEFAULT_REDIS_HOST,
+            port=port or self.DEFAULT_REDIS_PORT,
+            db=db or self.DEFAULT_REDIS_DB
+        )
 
     def push(self, event, increment=DEFAULT_INCREMENT, now=None):
         pipe = self.backend.pipeline()

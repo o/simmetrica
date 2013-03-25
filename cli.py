@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import argparse
 
 from simmetrica import Simmetrica
@@ -22,7 +23,11 @@ query_parser.add_argument('--resolution', default='5min', choices=Simmetrica.res
 
 args = parser.parse_args()
 
-simmetrica = Simmetrica()
+simmetrica = Simmetrica(
+    os.getenv('REDIS_HOST'),
+    os.getenv('REDIS_PORT'),
+    os.getenv('REDIS_DB')
+)
 
 if args.subparser_name == 'push':
     simmetrica.push(args.event, args.increment, args.now)

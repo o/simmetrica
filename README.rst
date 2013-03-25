@@ -12,7 +12,6 @@ TODO
 Todo
 ----
 * More strict error handling
-* Configurable redis settings for web and cli interface
 
 License
 -------

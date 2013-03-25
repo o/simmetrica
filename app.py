@@ -5,14 +5,18 @@ import json
 import yaml
 import time
 import re
+import os
 from collections import OrderedDict
 
 from flask import Flask, Response, request, render_template
 from simmetrica import Simmetrica
 
 app = Flask(__name__)
-app.debug = True
-simmetrica = Simmetrica()
+simmetrica = Simmetrica(
+    os.getenv('REDIS_HOST'),
+    os.getenv('REDIS_PORT'),
+    os.getenv('REDIS_DB')
+)
 
 @app.route('/')
 def index():
