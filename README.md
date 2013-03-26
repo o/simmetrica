@@ -133,88 +133,6 @@ Dashboard is configured with `config.yml` file, this file have a yaml list calle
 
 ##### Explanation of parameters
 
-**title**
-
-Title of graph block.
-
-
-Optional: No
-
-**timespan**
-
-How many timespan of data will shown in graph. 
-
-
-Possible values: `(NUMBER minute|hour|day|week|month|year)`
-Optional: Yes
-Default: `1 day`
-
-**colorscheme**
-
-Colorscheme of graph parts.
-
-
-Possible values: `classic9`, `colorwheel`, `cool`, `munin`, `spectrum14`, `spectrum2000` and `spectrum2001`
-Optional: Yes
-Default: `colorwheel`
-
-**type**
-
-Type of graph.
-
-
-Possible values: `area`, `stack`, `bar`, `line` and `scatterplot`
-Optional: Yes
-Default: `area`
-
-**interpolation**
-
-Line smoothing / interpolation method of graphs.
-
-
-Possible values: `linear`, `step-after`, `cardinal` and `basis`
-Optional: Yes
-Default: `cardinal`
-
-**resolution**
-
-Resolution of values. 
-
-
-Possible values: `min`, `5min`, `15min`, `hour`, `day`, `week`, `month`, `year`
-Optional: Yes
-Default: `5min`
-
-**size**
-
-Size of graph.
-
-
-Possible values: `S`, `M`, `L` and `XL`
-Optional: Yes
-Default: `M`
-
-**offset**
-
-Graph offset base.
- 
-
-Possible values: `zero`, `wiggle`, `expand` and `value`
-Optional: Yes
-Default: `value`
-
-**events**
-
-Every graph must be have at least one graph definition for rendering. Events have 2 values called `name`, and `title`. 
-
-**name** 
-
-This is the name of event, must be given.
-
-**title**
-
-Title of event, this will be shown in legend and not a mandatory value.
-
 Typical graph block looks like this:
 
     - title: Title (mandatory)
@@ -228,6 +146,104 @@ Typical graph block looks like this:
       events:
           - name: event_name (mandatory)
             title: Event Title
+
+Here is the explanations:
+
+**title**
+
+Title of graph block.
+
+
+Optional: No
+
+**timespan**
+
+How many timespan of data will shown in graph. 
+
+
+Possible values: `(NUMBER minute|hour|day|week|month|year)`
+
+Optional: Yes
+
+Default: `1 day`
+
+**colorscheme**
+
+Colorscheme of graph parts.
+
+
+Possible values: `classic9`, `colorwheel`, `cool`, `munin`, `spectrum14`, `spectrum2000` and `spectrum2001`
+
+Optional: Yes
+
+Default: `colorwheel`
+
+**type**
+
+Type of graph.
+
+
+Possible values: `area`, `stack`, `bar`, `line` and `scatterplot`
+
+Optional: Yes
+
+Default: `area`
+
+**interpolation**
+
+Line smoothing / interpolation method of graphs.
+
+
+Possible values: `linear`, `step-after`, `cardinal` and `basis`
+
+Optional: Yes
+
+Default: `cardinal`
+
+**resolution**
+
+Resolution of values. 
+
+
+Possible values: `min`, `5min`, `15min`, `hour`, `day`, `week`, `month`, `year`
+
+Optional: Yes
+
+Default: `5min`
+
+**size**
+
+Size of graph.
+
+
+Possible values: `S`, `M`, `L` and `XL`
+
+Optional: Yes
+
+Default: `M`
+
+**offset**
+
+Graph offset base.
+ 
+
+Possible values: `zero`, `wiggle`, `expand` and `value`
+
+Optional: Yes
+
+Default: `value`
+
+**events**
+
+Every graph must be have at least one graph definition for rendering. Events have 2 values called `name`, and `title`. 
+
+**name** 
+
+This is the name of event, must be given.
+
+**title**
+
+Title of event, this will be shown in legend and not a mandatory value.
 
 ###Known issues
 
