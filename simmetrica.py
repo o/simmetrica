@@ -27,7 +27,7 @@ class Simmetrica(object):
     def __init__(self, host=None, port=None, db=None):
         self.backend = StrictRedis(
             host=host or self.DEFAULT_REDIS_HOST,
-            port=port or self.DEFAULT_REDIS_PORT,
+            port=int(port or self.DEFAULT_REDIS_PORT),
             db=db or self.DEFAULT_REDIS_DB
         )
 
