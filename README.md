@@ -107,7 +107,7 @@ After running `app.py`
 
 ###Configuring dashboard blocks
 
-Dashboard is configured with `config.yml` file, this file have a yaml list called `graphs`. Graphs widgets rendered with lovely [rickshaw](https://github.com/shutterstock/rickshaw)(HTML5 + SVG and d3.js) library.
+Dashboard is configured with `config.yml` file, this file have a yaml list called `graphs`. Graphs widgets rendered with lovely [rickshaw](https://github.com/shutterstock/rickshaw) (HTML5 + SVG and d3.js) library.
 
     graphs:
         - graph parameters
@@ -122,11 +122,13 @@ Dashboard is configured with `config.yml` file, this file have a yaml list calle
 
 Title of graph block.
 
+
 Optional: No
 
 **timespan**
 
 How many timespan of data will shown in graph. 
+
 
 Possible values: `(NUMBER minute|hour|day|week|month|year)`
 Optional: Yes
@@ -136,6 +138,7 @@ Default: `1 day`
 
 Colorscheme of graph parts.
 
+
 Possible values: `classic9`, `colorwheel`, `cool`, `munin`, `spectrum14`, `spectrum2000` and `spectrum2001`
 Optional: Yes
 Default: `colorwheel`
@@ -143,6 +146,7 @@ Default: `colorwheel`
 **type**
 
 Type of graph.
+
 
 Possible values: `area`, `stack`, `bar`, `line` and `scatterplot`
 Optional: Yes
@@ -152,6 +156,7 @@ Default: `area`
 
 Line smoothing / interpolation method of graphs.
 
+
 Possible values: `linear`, `step-after`, `cardinal` and `basis`
 Optional: Yes
 Default: `cardinal`
@@ -159,6 +164,7 @@ Default: `cardinal`
 **resolution**
 
 Resolution of values. 
+
 
 Possible values: `min`, `5min`, `15min`, `hour`, `day`, `week`, `month`, `year`
 Optional: Yes
@@ -168,6 +174,7 @@ Default: `5min`
 
 Size of graph.
 
+
 Possible values: `S`, `M`, `L` and `XL`
 Optional: Yes
 Default: `M`
@@ -176,6 +183,7 @@ Default: `M`
 
 Graph offset base.
  
+
 Possible values: `zero`, `wiggle`, `expand` and `value`
 Optional: Yes
 Default: `value`
