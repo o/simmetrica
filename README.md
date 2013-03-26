@@ -105,6 +105,21 @@ After running `app.py`
 
 `resolution` is an optional parameter and it defaults to `5min`.
 
+###Overriding redis connection parameters
+
+In default Simmetrica connects to Redis on `127.0.0.1:6379` with database `0`.
+
+#####In library
+
+    >>> from simmetrica import Simmetrica
+    >>> simmetrica = Simmetrica(host='192.168.5.30', port=7000, db=16)
+
+#####In commandline and REST
+
+`REDIS_HOST`,`REDIS_PORT` and `REDIS_DB` parameters can be passed as environment variable.
+
+    ➜ REDIS_HOST=192.168.5.30 REDIS_PORT=7000 REDIS_DB=16 python cli.py ...
+
 ###Configuring dashboard blocks
 
 Dashboard is configured with `config.yml` file, this file have a yaml list called `graphs`. Graphs widgets rendered with lovely [rickshaw](https://github.com/shutterstock/rickshaw) (HTML5 + SVG and d3.js) library.
