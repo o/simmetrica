@@ -6,10 +6,17 @@ import yaml
 import time
 import re
 import os
+import argparse
+ 
 from collections import OrderedDict
 
 from flask import Flask, Response, request, render_template
 from simmetrica import Simmetrica
+
+parser = argparse.ArgumentParser(description='Start Simmetrica web application')
+parser.add_argument('-c', '--config', dest='configFile', default='config.yml',
+                   help='Run with the specified config file (default: config.yml)')
+args = parser.parse_args()
 
 app = Flask(__name__)
 simmetrica = Simmetrica(
@@ -38,7 +45,7 @@ def query(event, start, end):
 
 @app.route('/graph')
 def graph():
-    stream = file('config.yml')
+    stream = file(args.configFile)
     config = yaml.load(stream)
     result = []
     now = simmetrica.get_current_timestamp()

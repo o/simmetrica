@@ -151,6 +151,10 @@ In default Simmetrica connects to Redis on `127.0.0.1:6379` with database `0`.
 
 Now, you can see your shiny dashboard with pointing your browser to `http://127.0.0.1:5000/`.
 
+A full list of usage options can be displayed with the `--help` flag
+
+     ➜  simmetrica git:(master) ✗ python app.py --help
+
 #####Configuring dashboard blocks
 
 Dashboard is configured with `config.yml` file, this file have a yaml list called `graphs`. Graphs widgets rendered with lovely [rickshaw](https://github.com/shutterstock/rickshaw) (HTML5 + SVG and d3.js) library.
@@ -160,6 +164,10 @@ Dashboard is configured with `config.yml` file, this file have a yaml list calle
             - events
         - graph definition
             - events
+
+Optionally a custom config file can be specified with the `--config` flag
+
+    ➜  simmetrica git:(master) ✗ python app.py --config myConfig.yml
 
 ##### Explanation of configuration parameters
 
