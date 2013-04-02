@@ -19,32 +19,34 @@ Most current Linux distributions (also Mac OS X) comes with Python in the base p
     cd simmetrica
     pip install -r requirements.txt
 
-###Feeding your data
-#####From library
+**You need to run `redis-server` before pushing events and querying stored data.**
 
-You need to run `redis-server` before pushing events and querying stored data.
+###How to feed data
+
+We will use `push` method for notifying our events, it have 3 parameters:
+
+First parameters is `event`, which is canonical name of your input data. You'll use this name when querying data and configuring dashboard. Second is `increment`, this optional argument useful for overriding event count for submitting multiple events in a single operation. Last parameter `now` is defaults to current Unix timestamp, lets you to specify when event occurs.
+
+###How to query data
+
+To aggreagate stored data, we will use `query` method, it have 4 parameters:
+
+First is `event`, as you guessed it we already used this value for feeding our data. `start` and `end` parameters takes Unix timestamp for specifying interval of time-series. This parameters is mandatory. Last parameter `resolution` is used for defining the resolution / granularity of data. This is an optional parameter and it defaults to `5min` (five minutes). Possible values are `min`, `5min`, `15min`, `hour`, `day`, `week`, `month` and `year`.
+
+###Using library
+
+#####Feeding
 
     >>> from simmetrica import Simmetrica
     >>> simmetrica = Simmetrica()
     >>> simmetrica.push('add-cart-action')
     [1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L]
 
-#####From commandline
-  
-    ➜ python cli.py push add-cart-action
-    ok
-  
-#####From REST
+Overriding default parameters:
 
-After running `app.py` 
+    >>> simmetrica.push('nginx-connections-received-5min', increment=5, now=1364298120)
 
-    ➜ curl 127.0.0.1:5000/push/add-cart-action
-    ok
-
-Also you can override default `event count` and `time` in all interfaces.
-
-###Querying data
-#####From library
+#####Querying
 
     >>> start = simmetrica.get_current_timestamp() - 600
     >>> end = simmetrica.get_current_timestamp()     
@@ -64,7 +66,18 @@ Also you can override default `event count` and `time` in all interfaces.
     1364298480 1
     1364298540 2
 
-#####From commandline
+###Using command-line
+
+#####Feeding
+
+    ➜ python cli.py push add-cart-action
+    ok
+
+Overriding default parameters:
+
+    ➜ python cli.py push nginx-connections-received-5min --increment=5 --now=1364298120
+
+#####Querying
 
     ➜ python cli.py query add-cart-action 1364297990 1364298608 --resolution=min
     1364297940 0
@@ -84,9 +97,20 @@ Beautify with [spark](http://zachholman.com/spark/)
     ➜ python cli.py query add-cart-action 1364297990 1364298608 --resolution=min | awk '{print $2}' | spark
     ▁▁▁▁▁▁▁▁▁▄█
 
-#####From REST
+###Using REST
 
-After running `app.py` 
+#####Feeding
+
+After running `app.py`
+
+    ➜ curl 127.0.0.1:5000/push/add-cart-action
+    ok
+
+Overriding default parameters:
+
+    ➜ curl 127.0.0.1:5000/push/nginx-connections-received-5min?increment=5&now=1364298120
+
+#####Querying
 
     ➜ curl "127.0.0.1:5000/query/add-cart-action/1364297990/1364298608?resolution=min" | python -mjson.tool
     {
@@ -102,8 +126,6 @@ After running `app.py`
         "1364298480": "1", 
         "1364298540": "2"
     }
-
-`resolution` is an optional parameter and it defaults to `5min`.
 
 ###Overriding redis connection parameters
 
@@ -121,6 +143,7 @@ In default Simmetrica connects to Redis on `127.0.0.1:6379` with database `0`.
     ➜ REDIS_HOST=192.168.5.30 REDIS_PORT=7000 REDIS_DB=16 python cli.py ...
 
 ###Dashboard
+
 #####Running web application
 
     ➜  simmetrica git:(master) ✗ python app.py 
@@ -260,8 +283,7 @@ Title of event, this will be shown in legend and not a mandatory value.
 
 I just created this project for learning some Python. Please help me to make it better!
 
-License
--------
+###License
 Copyright (c) 2013 Osman Ungur
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
