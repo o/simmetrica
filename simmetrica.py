@@ -29,7 +29,7 @@ class Simmetrica(object):
         self.backend = StrictRedis(
             host=host or self.DEFAULT_REDIS_HOST,
             port=int(port or self.DEFAULT_REDIS_PORT),
-            db=db or self.DEFAULT_REDIS_DB
+            db=db or self.DEFAULT_REDIS_DB,
             password=password or self.DEFAULT_REDIS_PASSWORD
         )
 
