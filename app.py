@@ -46,13 +46,21 @@ parser.add_argument(
     help='Connect to the specified db in redis'
 )
 
+parser.add_argument(
+    '--redis_password',
+    '-ra',
+    default=None,
+    help='Authorization password of redis'
+)
+
 args = parser.parse_args()
 
 app = Flask(__name__)
 simmetrica = Simmetrica(
     args.redis_host,
     args.redis_port,
-    args.redis_db
+    args.redis_db,
+    args.redis_password
 )
 
 

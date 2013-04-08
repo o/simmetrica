@@ -29,6 +29,13 @@ redis_arg_parser.add_argument(
     help='Connect to the specified db in redis'
 )
 
+redis_arg_parser.add_argument(
+    '--redis_password',
+    '-ra',
+    default=None,
+    help='Authorization password of redis'
+)
+
 subparsers = parser.add_subparsers(dest='subparser_name')
 
 push_parser = subparsers.add_parser('push', parents=[redis_arg_parser])
@@ -55,7 +62,8 @@ args = parser.parse_args()
 simmetrica = Simmetrica(
     args.redis_host,
     args.redis_port,
-    args.redis_db
+    args.redis_db,
+    args.redis_password
 )
 
 if args.subparser_name == 'push':
