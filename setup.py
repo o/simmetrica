@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='simmetrica',
     py_modules=['simmetrica'],
-    version='0.5.1',
+    version='0.6.0',
     description='Library for collecting, aggregating and visualizing event '
                 'metrics as timeseries data',
     author='Osman Ungur',

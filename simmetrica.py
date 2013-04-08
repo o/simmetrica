@@ -3,7 +3,8 @@
 
 import time
 
-from redis import StrictRedis, ConnectionError
+from redis import StrictRedis
+
 
 class Simmetrica(object):
 
