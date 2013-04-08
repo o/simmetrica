@@ -134,13 +134,13 @@ In default Simmetrica connects to Redis on `127.0.0.1:6379` with database `0`.
 #####In library
 
     >>> from simmetrica import Simmetrica
-    >>> simmetrica = Simmetrica(host='192.168.5.30', port=7000, db=16)
+    >>> simmetrica = Simmetrica(host='192.168.5.30', port=7000, db=16, password=qwerty)
 
 #####In commandline and REST
 
-`redis_host`,`redis_port` and `redis_db` parameters can be passed as environment variable.
+`redis_host`, `redis_port`, `redis_db` and `redis_password` parameters can be passed as commandline argument in `app.py` and `cli.py`.
 
-    ➜ python cli.py ... --redis-host=192.168.5.30 --redis-port=7000 --redis-db=16 
+    ➜ python cli.py ... --redis_host=192.168.5.30 --redis_port=7000 --redis_db=16 --redis_password=qwerty
 
 ###Dashboard
 
