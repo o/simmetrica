@@ -3,31 +3,63 @@
 
 import json
 import yaml
-import time
 import re
-import os
 import argparse
- 
+
 from collections import OrderedDict
 
 from flask import Flask, Response, request, render_template
 from simmetrica import Simmetrica
 
-parser = argparse.ArgumentParser(description='Start Simmetrica web application')
-parser.add_argument('-c', '--config', dest='configFile', default='config.yml',
-                   help='Run with the specified config file (default: config.yml)')
+parser = argparse.ArgumentParser(
+    description='Starts Simmetrica web application'
+)
+parser.add_argument(
+    '--debug',
+    '-d',
+    default=False,
+    help='Run the app in debug mode',
+    action='store_true'
+)
+parser.add_argument(
+    '--config',
+    '-c',
+    default='config.yml',
+    help='Run with the specified config file (default: config.yml)'
+)
+parser.add_argument(
+    '--redis_host',
+    '-rh',
+    default=None,
+    help='Connect to redis on the specified host'
+)
+parser.add_argument(
+    '--redis_port',
+    '-rp',
+    default=None,
+    help='Connect to redis on the specified port'
+)
+parser.add_argument(
+    '--redis_db',
+    '-rd',
+    default=None,
+    help='Connect to the specified db in redis'
+)
+
 args = parser.parse_args()
 
 app = Flask(__name__)
 simmetrica = Simmetrica(
-    os.getenv('REDIS_HOST'),
-    os.getenv('REDIS_PORT'),
-    os.getenv('REDIS_DB')
+    args.redis_host,
+    args.redis_port,
+    args.redis_db
 )
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/push/<event>')
 def push(event):
@@ -36,6 +68,7 @@ def push(event):
     simmetrica.push(event, increment, now)
     return 'ok'
 
+
 @app.route('/query/<event>/<int:start>/<int:end>')
 def query(event, start, end):
     resolution = request.args.get('resolution') or Simmetrica.DEFAULT_RESOLUTION
@@ -43,9 +76,10 @@ def query(event, start, end):
     response = json.dumps(OrderedDict(result))
     return Response(response, status=200, mimetype='application/json')
 
+
 @app.route('/graph')
 def graph():
-    stream = file(args.configFile)
+    stream = file(args.config)
     config = yaml.load(stream)
     result = []
     now = simmetrica.get_current_timestamp()
@@ -54,7 +88,7 @@ def graph():
         events = []
         for event in section['events']:
             data = simmetrica.query(event['name'], now - timespan_as_seconds, now, section.get('resolution', Simmetrica.DEFAULT_RESOLUTION))
-            series = [ dict(x=timestamp, y=int(value)) for timestamp, value in data]
+            series = [dict(x=timestamp, y=int(value)) for timestamp, value in data]
             events.append(dict(
                 name=event['name'],
                 title=event.get('title', event['name']),
@@ -75,13 +109,14 @@ def graph():
     return Response(response, status=200, mimetype='application/json')
 
 unit_multipliers = {
-    'minute' : 60,
-    'hour' : 3600,
-    'day' : 86400,
-    'week' : 86400 * 7,
+    'minute': 60,
+    'hour': 3600,
+    'day': 86400,
+    'week': 86400 * 7,
     'month': 86400 * 30,
-    'year' : 86400 * 365
+    'year': 86400 * 365
 }
+
 
 def get_seconds_from_relative_time(string):
     for unit in unit_multipliers.keys():
@@ -89,7 +124,8 @@ def get_seconds_from_relative_time(string):
             match = re.match(r"(\d+)+\s(\w+)", string)
             if match:
                 return unit_multipliers[unit] * int(match.group(1))
-    else: raise ValueError("Invalid unit '%s'" % string)
+    else:
+        raise ValueError("Invalid unit '%s'" % string)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=args.debug)

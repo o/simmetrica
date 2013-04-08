@@ -138,9 +138,9 @@ In default Simmetrica connects to Redis on `127.0.0.1:6379` with database `0`.
 
 #####In commandline and REST
 
-`REDIS_HOST`,`REDIS_PORT` and `REDIS_DB` parameters can be passed as environment variable.
+`redis_host`,`redis_port` and `redis_db` parameters can be passed as environment variable.
 
-    ➜ REDIS_HOST=192.168.5.30 REDIS_PORT=7000 REDIS_DB=16 python cli.py ...
+    ➜ python cli.py ... --redis-host=192.168.5.30 --redis-port=7000 --redis-db=16 
 
 ###Dashboard
 
