@@ -1,10 +1,10 @@
-![build status](https://travis-ci.org/import/simmetrica.png?branch=master)
+[![Build Status](https://travis-ci.org/o/simmetrica.png?branch=master)](https://travis-ci.org/o/simmetrica)
 
 #Simmetrica (simple-metric-aggregator)
 
 Simmetrica is a lightweight framework for collecting and aggregating event metrics as timeseries data. It also comes with beautiful customizable dashboard for visualizing metrics with charts.
 
-![preview](http://import.github.com/assets/simmetrica/preview.png)
+![preview](https://raw.github.com/o/simmetrica/master/preview.png)
 
 ###Dependencies
 
