@@ -15,7 +15,7 @@ Most current Linux distributions (also Mac OS X) comes with Python in the base p
 
 ###Installing
 
-    git://github.com/o/simmetrica.git
+    git clone git://github.com/o/simmetrica.git
     cd simmetrica
     pip install -r requirements.txt
 
