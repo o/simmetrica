@@ -34,7 +34,7 @@ function App() {
   };
 
   partialViews.graphSection = function (section) {
-    return '<section class="graph-section" id="' + section.identifier + '"><h3 class="graph-title">' + section.title + '</h3><div class="graph-container"><div class="y-axis"></div><div class="graph"></div><div class="legend"></div></div></section>';
+    return '<section class="graph-section" id="' + section.identifier + '"><h3 class="graph-title">' + section.title + '</h3><div class="graph-container"><div class="y-axis"></div><div class="graph"></div></div><div class="legend"></div></section>';
   };
 
   domBuilders.renderError = function () {
@@ -78,8 +78,8 @@ function App() {
     });
 
     new Rickshaw.Graph.Behavior.Series.Order({
-    	graph: graph,
-    	legend: legend
+      graph: graph,
+      legend: legend
     });
 
     new Rickshaw.Graph.Behavior.Series.Highlight({
@@ -88,7 +88,8 @@ function App() {
     });
 
     new Rickshaw.Graph.Axis.Time({
-      graph: graph
+      graph: graph,
+      timeFixture: new Rickshaw.Fixtures.Time.Local()
     });
 
     new Rickshaw.Graph.Axis.Y({
@@ -99,7 +100,10 @@ function App() {
     });
 
     new Rickshaw.Graph.HoverDetail( {
-    	graph: graph
+      graph: graph,
+      xFormatter: function (x) {
+        return new Date(x * 1000).toString();
+      }
     });
 
     graph.render();
