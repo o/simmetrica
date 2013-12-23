@@ -279,10 +279,6 @@ This is the name of event, must be given.
 
 Title of event, this will be shown in legend and not a mandatory value.
 
-###Known issues
-
-* Timezone is not adjustable for Time based axis [shutterstock/rickshaw#140](https://github.com/shutterstock/rickshaw/issues/140)
-
 ###Contributing
 
 I just created this project for learning some Python. Please help me to make it better!
