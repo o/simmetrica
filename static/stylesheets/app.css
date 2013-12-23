@@ -5,7 +5,7 @@ body {
   font: 16px/26px 'Lato',serif;
   color: #333;
 }
-header,footer,#graphs {
+header, footer, #graphs {
   width: 1200px;
   margin: 20px auto;
 }
@@ -15,26 +15,29 @@ h1 {
 h3 {
   font-size: 1.5em;
 }
+#top-title, .graph-title {
+  font-weight: normal;
+  padding-left: 30px;
+}
+#loading, #errormessage {
+  font-weight: normal;
+  text-align: center;
+}
 .graph-section {
   float: left;
   margin: 20px 0px;
 }
 .graph-container .y-axis {
-  width: 50px;
   float: left;
+  height: 300px;
+  width: 50px;
 }
 .graph-container .graph {
   float: left;
+  height: 300px;
 }
-#top-title,.graph-title {
-  font-weight: normal;
-  padding-left: 30px;
-}
-.rickshaw_legend {
+.legend {
   background: transparent;
   color: #333;
-}
-#loading, #errormessage {
-  font-weight: normal;
-  text-align: center;
+  padding-left: 30px;
 }
