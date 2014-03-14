@@ -11,7 +11,7 @@ Simmetrica is a lightweight framework for collecting and aggregating event metri
 * Python 2.6 or greater
 * Redis Server
 
-Most current Linux distributions (also Mac OS X) comes with Python in the base packages. Simmetrica uses `redis` for storing data, you can install `redis-server` with your favorite package manager.
+Most of the current Linux distributions (also Mac OS X) comes with Python installed default. Simmetrica also uses `redis` for storing data, you can install `redis-server` with your favorite package manager.
 
 ###Installing
 
@@ -23,15 +23,15 @@ Most current Linux distributions (also Mac OS X) comes with Python in the base p
 
 ###How to feed data
 
-We will use `push` method for notifying our events, it have 3 parameters:
+We will use `push` method for notifying our events, it has 3 parameters:
 
-First parameters is `event`, which is canonical name of your input data. You'll use this name when querying data and configuring dashboard. Second is `increment`, this optional argument useful for overriding event count for submitting multiple events in a single operation. Last parameter `now` is defaults to current Unix timestamp, lets you to specify when event occurs.
+First parameter is `event`, which is canonical name of your input data. You'll use this name when querying data and configuring dashboard. Second is `increment`, this optional argument is useful for overriding event count for submitting multiple events in a single operation. Last parameter `now` is defaults to current Unix timestamp, lets you to specify when event occurs.
 
 ###How to query data
 
-To aggreagate stored data, we will use `query` method, it have 4 parameters:
+To aggreagate stored data, we will use `query` method, it has 4 parameters:
 
-First is `event`, as you guessed it we already used this value for feeding our data. `start` and `end` parameters takes Unix timestamp for specifying interval of time-series. This parameters is mandatory. Last parameter `resolution` is used for defining the resolution / granularity of data. This is an optional parameter and it defaults to `5min` (five minutes). Possible values are `min`, `5min`, `15min`, `hour`, `day`, `week`, `month` and `year`.
+First one is `event`, as you guessed, we already used this value for feeding our data. `start` and `end` parameters take Unix timestamp for specifying interval of time-series. This parameters are mandatory. Last parameter `resolution` is used for defining the resolution / granularity of data. This is an optional parameter and it defaults to `5min` (five minutes). Possible values are `min`, `5min`, `15min`, `hour`, `day`, `week`, `month` and `year`.
 
 ###Using library
 
@@ -49,11 +49,11 @@ Overriding default parameters:
 #####Querying
 
     >>> start = simmetrica.get_current_timestamp() - 600
-    >>> end = simmetrica.get_current_timestamp()     
+    >>> end = simmetrica.get_current_timestamp()
     >>> results = simmetrica.query('add-cart-action', start, end, 'min')
     >>> for time, val in results:
     ...     print time, val
-    ... 
+    ...
     1364297940 0
     1364298000 0
     1364298060 0
@@ -114,22 +114,22 @@ Overriding default parameters:
 
     ➜ curl "127.0.0.1:5000/query/add-cart-action/1364297990/1364298608?resolution=min" | python -mjson.tool
     {
-        "1364297940": 0, 
-        "1364298000": 0, 
-        "1364298060": 0, 
-        "1364298120": 0, 
-        "1364298180": 0, 
-        "1364298240": 0, 
-        "1364298300": 0, 
-        "1364298360": 0, 
-        "1364298420": 0, 
-        "1364298480": "1", 
+        "1364297940": 0,
+        "1364298000": 0,
+        "1364298060": 0,
+        "1364298120": 0,
+        "1364298180": 0,
+        "1364298240": 0,
+        "1364298300": 0,
+        "1364298360": 0,
+        "1364298420": 0,
+        "1364298480": "1",
         "1364298540": "2"
     }
 
 ###Overriding redis connection parameters
 
-In default Simmetrica connects to Redis on `127.0.0.1:6379` with database `0`.
+As default Simmetrica connects to Redis on `127.0.0.1:6379` with database `0`.
 
 #####In library
 
@@ -138,7 +138,7 @@ In default Simmetrica connects to Redis on `127.0.0.1:6379` with database `0`.
 
 #####In commandline and REST
 
-`redis_host`, `redis_port`, `redis_db` and `redis_password` parameters can be passed as commandline argument in `app.py` and `cli.py`.
+`redis_host`, `redis_port`, `redis_db` and `redis_password` parameters can be passed as commandline arguments in `app.py` and `cli.py`.
 
     ➜ python cli.py ... --redis_host=192.168.5.30 --redis_port=7000 --redis_db=16 --redis_password=qwerty
 
@@ -146,7 +146,7 @@ In default Simmetrica connects to Redis on `127.0.0.1:6379` with database `0`.
 
 #####Running web application
 
-    ➜ python app.py 
+    ➜ python app.py
      * Running on http://127.0.0.1:5000/
 
 Now, you can see your shiny dashboard with pointing your browser to `http://127.0.0.1:5000/`.
@@ -157,7 +157,7 @@ Optionally a custom config file can be specified with the `--config` flag.
 
 #####Configuring dashboard blocks
 
-Dashboard is configured with `config.yml` file, this file have a yaml list called `graphs`. Graphs widgets rendered with lovely [rickshaw](https://github.com/shutterstock/rickshaw) (HTML5 + SVG and d3.js) library.
+Dashboard is configured with `config.yml` file, this file has a yaml list called `graphs`. Graph widgets are rendered with lovely [rickshaw](https://github.com/shutterstock/rickshaw) (HTML5 + SVG and d3.js) library.
 
     graphs:
         - graph definition
@@ -181,7 +181,7 @@ Typical graph block looks like this:
           - name: event_name (mandatory)
             title: Event Title
 
-Here is the explanations:
+Here are the explanations:
 
 **title**
 
@@ -192,7 +192,7 @@ Optional: No
 
 **timespan**
 
-How many timespan of data will shown in graph. 
+How many timespan of data will shown in graph.
 
 
 Possible values: `(NUMBER minute|hour|day|week|month|year)`
@@ -236,7 +236,7 @@ Default: `cardinal`
 
 **resolution**
 
-Resolution of values. 
+Resolution of values.
 
 
 Possible values: `min`, `5min`, `15min`, `hour`, `day`, `week`, `month`, `year`
@@ -259,7 +259,7 @@ Default: `M`
 **offset**
 
 Graph offset base.
- 
+
 
 Possible values: `zero`, `wiggle`, `expand` and `value`
 
@@ -269,9 +269,9 @@ Default: `value`
 
 **events**
 
-Every graph must be have at least one graph definition for rendering. Events have 2 values called `name`, and `title`. 
+Every graph must have at least one graph definition for rendering. Events have 2 values called `name`, and `title`.
 
-**name** 
+**name**
 
 This is the name of event, must be given.
 
