@@ -2,7 +2,7 @@ language: python
 
 python: "2.7"
 
-install: "pip install -r requirements.txt --use-mirrors"
+install: "pip install -r requirements-dev.txt --use-mirrors"
 
 before_script: "sudo apt-get install -y redis-server"
 
