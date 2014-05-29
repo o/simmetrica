@@ -5,11 +5,17 @@ import json
 import yaml
 import re
 import argparse
+import inspect
+import os
+import sys
 
 from collections import OrderedDict
 
 from flask import Flask, Response, request, render_template
 from simmetrica import Simmetrica
+
+module_path = os.path.dirname(inspect.getfile(Simmetrica))
+default_config_filename = 'config.yml'
 
 parser = argparse.ArgumentParser(
     description='Starts Simmetrica web application'
@@ -24,7 +30,7 @@ parser.add_argument(
 parser.add_argument(
     '--config',
     '-c',
-    default='config.yml',
+    default=default_config_filename,
     help='Run with the specified config file (default: config.yml)'
 )
 parser.add_argument(
@@ -55,14 +61,18 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-app = Flask(__name__)
+app = Flask(
+    __name__, 
+    static_folder=os.path.join(module_path, 'static'), 
+    template_folder=os.path.join(module_path, 'templates')
+)
+
 simmetrica = Simmetrica(
     args.redis_host,
     args.redis_port,
     args.redis_db,
     args.redis_password
 )
-
 
 @app.route('/')
 def index():
@@ -87,7 +97,8 @@ def query(event, start, end):
 
 @app.route('/graph')
 def graph():
-    stream = file(args.config)
+    config_file = get_config_filename(args.config)
+    stream = file(config_file)
     config = yaml.load(stream)
     result = []
     now = simmetrica.get_current_timestamp()
@@ -134,6 +145,27 @@ def get_seconds_from_relative_time(string):
                 return unit_multipliers[unit] * int(match.group(1))
     else:
         raise ValueError("Invalid unit '%s'" % string)
+
+def get_system_wide_config_filename():
+    if hasattr(sys, 'real_prefix') or 'bsd' in sys.platform:
+        return os.path.join(sys.prefix, 'etc', 'simmetrica', default_config_filename)
+    elif not hasattr(sys, 'real_prefix') and 'linux' in sys.platform:
+        return os.path.join('/etc', 'simmetrica', default_config_filename)
+    elif 'darwin' in sys.platform:
+        return os.path.join('/usr/local', 'etc', 'simmetrica', default_config_filename)
+    elif 'win32' in sys.platform:
+        return os.path.join(os.environ.get('APPDATA'), 'simmetrica', default_config_filename)
+
+def get_config_filename(arg):
+    current_dir = str(os.getcwd)
+    if os.path.isfile(arg):
+        return arg
+    elif os.path.isfile(os.path.join(current_dir, arg)):
+        return os.path.join(current_dir, arg)
+    elif os.path.isfile(get_system_wide_config_filename()):
+        return get_system_wide_config_filename()
+    else:
+        raise IOError("config.yml not found")
 
 if __name__ == '__main__':
     app.run(debug=args.debug)
