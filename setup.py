@@ -42,6 +42,16 @@ setup(
     zip_safe=False,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
+        'Environment :: Console',
+        'Intended Audience :: Developers',
+        'Intended Audience :: End Users/Desktop',
+        'Intended Audience :: System Administrators'
+        'License :: OSI Approved :: MIT License',
+        'Topic :: System :: Monitoring'
     ],
     keywords=[
         'event', 'metric', 'timeseries', 'statistics',
@@ -51,3 +61,4 @@ setup(
     scripts=glob('bin/*'),
     data_files=data_files
 )
+
