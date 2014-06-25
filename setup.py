@@ -49,7 +49,7 @@ setup(
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Intended Audience :: End Users/Desktop',
-        'Intended Audience :: System Administrators'
+        'Intended Audience :: System Administrators',
         'License :: OSI Approved :: MIT License',
         'Topic :: System :: Monitoring'
     ],
