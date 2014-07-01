@@ -10,10 +10,10 @@ def read(*names, **kwargs):
     ).read()
 
 data_files = [
-    ('share/doc', ['README.md', 'config/config.yml']),
-    ('simmetrica/static/javascripts', glob('static/javascripts/*')),
-    ('simmetrica/static/stylesheets', glob('static/stylesheets/*')),
-    ('simmetrica/templates', glob('templates/*')),
+    ('share/doc/simmetrica', ['README.md', 'config/config.yml']),
+    ('share/doc/simmetrica/static/javascripts', glob('static/javascripts/*')),
+    ('share/doc/simmetrica/static/stylesheets', glob('static/stylesheets/*')),
+    ('share/doc/simmetrica/templates', glob('templates/*')),
 ]
 
 if hasattr(sys, 'real_prefix') or 'bsd' in sys.platform:
@@ -28,7 +28,7 @@ data_files.append((conf_path, ['config/config.yml']))
 
 setup(
     name="simmetrica",
-    version="1.0",
+    version="1.0.1",
     url='https://github.com/o/simmetrica',
     license='MIT',
     description='Library for collecting, aggregating and visualizing event '

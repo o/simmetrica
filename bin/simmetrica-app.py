@@ -5,7 +5,6 @@ import json
 import yaml
 import re
 import argparse
-import inspect
 import os
 import sys
 
@@ -14,8 +13,8 @@ from collections import OrderedDict
 from flask import Flask, Response, request, render_template
 from simmetrica import Simmetrica
 
-module_path = os.path.dirname(inspect.getfile(Simmetrica))
 default_config_filename = 'config.yml'
+data_file_path=os.path.join(sys.prefix, 'share', 'doc', 'simmetrica')
 
 parser = argparse.ArgumentParser(
     description='Starts Simmetrica web application'
@@ -63,8 +62,8 @@ args = parser.parse_args()
 
 app = Flask(
     __name__, 
-    static_folder=os.path.join(module_path, 'static'), 
-    template_folder=os.path.join(module_path, 'templates')
+    static_folder=os.path.join(data_file_path, 'static'), 
+    template_folder=os.path.join(data_file_path, 'templates')
 )
 
 simmetrica = Simmetrica(
