@@ -1,0 +1,5 @@
+include README.md
+recursive-include static *
+recursive-include templates *
+include config/config.yml
+
