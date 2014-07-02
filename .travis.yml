@@ -8,3 +8,14 @@ before_script: "sudo apt-get install -y redis-server"
 
 script: nosetests
 
+language: python
+python: 2.7
+env:
+- TOX_ENV=py26
+- TOX_ENV=py27
+- TOX_ENV=py33
+- TOX_ENV=py34
+install:
+- pip install tox
+script:
+- tox -e $TOX_ENV
