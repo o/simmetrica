@@ -1,6 +1,5 @@
 import mock
 import unittest
-import sys
 
 from simmetrica import Simmetrica
 
@@ -17,12 +16,23 @@ class TestSimmetrica(unittest.TestCase):
     def test_get_timestamps_for_query(self):
         simmetrica = Simmetrica()
         timestamps = simmetrica.get_timestamps_for_query(1363707480, 1363707780, 60)
-        self.assertEqual(timestamps, [1363707480, 1363707540, 1363707600, 1363707660, 1363707720])
+
+        expected = [1363707480, 1363707540, 1363707600, 1363707660, 1363707720]
+        self.assertEqual(list(timestamps), expected)
 
     def test_get_timestamps_for_push(self):
         simmetrica = Simmetrica()
         timestamps = list(simmetrica.get_timestamps_for_push(1363707716))
-        self.assertEqual(timestamps, [('week', 1363219200), ('hour', 1363705200), ('min', 1363707660), ('month', 1363392000), ('5min', 1363707600), ('year', 1356048000), ('day', 1363651200), ('15min', 1363707000)])
+        self.assertEqual(sorted(timestamps), [
+            ('15min', 1363707000),
+            ('5min', 1363707600),
+            ('day', 1363651200),
+            ('hour', 1363705200),
+            ('min', 1363707660),
+            ('month', 1363392000),
+            ('week', 1363219200),
+            ('year', 1356048000),
+        ])
 
     def test_round_time(self):
         simmetrica = Simmetrica()
