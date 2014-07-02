@@ -8,7 +8,7 @@ from simmetrica import Simmetrica
 class TestSimmetrica(unittest.TestCase):
 
     def test_push(self):
-        with mock.patch('simmetrica.StrictRedis') as StrictRedis:
+        with mock.patch('simmetrica.simmetrica.StrictRedis') as StrictRedis:
             simmetrica = Simmetrica()
             hincrby = StrictRedis.return_value.pipeline.return_value.hincrby
             simmetrica.push('foo')
