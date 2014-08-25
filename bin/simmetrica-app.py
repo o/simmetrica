@@ -105,7 +105,7 @@ def graph():
         timespan_as_seconds = get_seconds_from_relative_time(section.get('timespan', '1 day'))
         events = []
         for event in section['events']:
-            data = simmetrica.query(event['name'], now - timespan_as_seconds, now, section.get('resolution', Simmetrica.DEFAULT_RESOLUTION))
+            data = simmetrica.query(event['name'], (now - timespan_as_seconds), (now + simmetrica.resolutions[section.get('resolution', Simmetrica.DEFAULT_RESOLUTION)]), section.get('resolution', Simmetrica.DEFAULT_RESOLUTION))
             series = [dict(x=timestamp, y=int(value)) for timestamp, value in data]
             events.append(dict(
                 name=event['name'],
