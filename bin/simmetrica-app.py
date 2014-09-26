@@ -13,8 +13,9 @@ from collections import OrderedDict
 from flask import Flask, Response, request, render_template
 from simmetrica import Simmetrica
 
-default_config_filename = 'config.yml'
-data_file_path=os.path.join(sys.prefix, 'share', 'doc', 'simmetrica')
+STATIC_FOLDER = '/opt/simmetrica/static'
+TEMPLATE_FOLDER = '/opt/simmetrica/templates'
+DEFAULT_CONFIG_FILE = '/opt/simmetrica/config/config.yml'
 
 parser = argparse.ArgumentParser(
     description='Starts Simmetrica web application'
@@ -29,8 +30,8 @@ parser.add_argument(
 parser.add_argument(
     '--config',
     '-c',
-    default=default_config_filename,
-    help='Run with the specified config file (default: config.yml)'
+    default=DEFAULT_CONFIG_FILE,
+    help='Run with the specified config file (default: ' + DEFAULT_CONFIG_FILE  + ')'
 )
 parser.add_argument(
     '--redis_host',
@@ -62,8 +63,8 @@ args = parser.parse_args()
 
 app = Flask(
     __name__, 
-    static_folder=os.path.join(data_file_path, 'static'), 
-    template_folder=os.path.join(data_file_path, 'templates')
+    static_folder=STATIC_FOLDER,
+    template_folder=TEMPLATE_FOLDER
 )
 
 simmetrica = Simmetrica(
@@ -145,26 +146,17 @@ def get_seconds_from_relative_time(string):
     else:
         raise ValueError("Invalid unit '%s'" % string)
 
-def get_system_wide_config_filename():
-    if hasattr(sys, 'real_prefix') or 'bsd' in sys.platform:
-        return os.path.join(sys.prefix, 'etc', 'simmetrica', default_config_filename)
-    elif not hasattr(sys, 'real_prefix') and 'linux' in sys.platform:
-        return os.path.join('/etc', 'simmetrica', default_config_filename)
-    elif 'darwin' in sys.platform:
-        return os.path.join('/usr/local', 'etc', 'simmetrica', default_config_filename)
-    elif 'win32' in sys.platform:
-        return os.path.join(os.environ.get('APPDATA'), 'simmetrica', default_config_filename)
-
 def get_config_filename(arg):
     current_dir = str(os.getcwd)
     if os.path.isfile(arg):
         return arg
     elif os.path.isfile(os.path.join(current_dir, arg)):
         return os.path.join(current_dir, arg)
-    elif os.path.isfile(get_system_wide_config_filename()):
-        return get_system_wide_config_filename()
+    elif os.path.isfile(DEFAULT_CONFIG_FILE):
+        return DEFAULT_CONFIG_FILE
     else:
-        raise IOError("config.yml not found")
+        raise IOError("Configuration file not found")
 
 if __name__ == '__main__':
     app.run(debug=args.debug)
+

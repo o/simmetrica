@@ -10,25 +10,15 @@ def read(*names, **kwargs):
     ).read()
 
 data_files = [
-    ('share/doc/simmetrica', ['README.md', 'config/config.yml']),
-    ('share/doc/simmetrica/static/javascripts', glob('static/javascripts/*')),
-    ('share/doc/simmetrica/static/stylesheets', glob('static/stylesheets/*')),
-    ('share/doc/simmetrica/templates', glob('templates/*')),
+    ('/opt/simmetrica/config', ['config/config.yml']),
+    ('/opt/simmetrica/static/javascripts', glob('static/javascripts/*')),
+    ('/opt/simmetrica/static/stylesheets', glob('static/stylesheets/*')),
+    ('/opt/simmetrica/templates', glob('templates/*')),
 ]
-
-if hasattr(sys, 'real_prefix') or 'bsd' in sys.platform:
-    conf_path = os.path.join(sys.prefix, 'etc', 'simmetrica')
-elif not hasattr(sys, 'real_prefix') and 'linux' in sys.platform:
-    conf_path = os.path.join('/etc', 'simmetrica')
-elif 'darwin' in sys.platform:
-    conf_path = os.path.join('/usr/local', 'etc', 'simmetrica')
-elif 'win32' in sys.platform:
-    conf_path = os.path.join(os.environ.get('APPDATA'), 'simmetrica')
-data_files.append((conf_path, ['config/config.yml']))
 
 setup(
     name="simmetrica",
-    version="1.0.1",
+    version="1.0.2",
     url='https://github.com/o/simmetrica',
     license='MIT',
     description='Library for collecting, aggregating and visualizing event '
@@ -46,6 +36,8 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Intended Audience :: End Users/Desktop',
