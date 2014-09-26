@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/o/simmetrica.png?branch=master)](https://travis-ci.org/o/simmetrica)
-
 #Simmetrica (simple-metric-aggregator)
 
 Simmetrica is a lightweight framework for collecting and aggregating event metrics as timeseries data. It also comes with beautiful customizable dashboard for visualizing metrics with charts.
@@ -15,9 +13,7 @@ Most of the current Linux distributions (also Mac OS X) comes with Python instal
 
 ###Installing
 
-    git clone git://github.com/o/simmetrica.git
-    cd simmetrica
-    pip install -r requirements.txt
+    ➜ [sudo] pip install simmetrica
 
 **You need to run `redis-server` before pushing events and querying stored data.**
 
@@ -70,16 +66,16 @@ Overriding default parameters:
 
 #####Feeding
 
-    ➜ python cli.py push add-cart-action
+    ➜ simmetrica-cli.py push add-cart-action
     ok
 
 Overriding default parameters:
 
-    ➜ python cli.py push nginx-connections-received-5min --increment=5 --now=1364298120
+    ➜ simmetrica-cli.py push nginx-connections-received-5min --increment=5 --now=1364298120
 
 #####Querying
 
-    ➜ python cli.py query add-cart-action 1364297990 1364298608 --resolution=min
+    ➜ simmetrica-cli.py query add-cart-action 1364297990 1364298608 --resolution=min
     1364297940 0
     1364298000 0
     1364298060 0
@@ -101,7 +97,7 @@ Beautify with [spark](http://zachholman.com/spark/)
 
 #####Feeding
 
-After running `app.py`
+After running `simmetrica-app.py`
 
     ➜ curl 127.0.0.1:5000/push/add-cart-action
     ok
@@ -138,26 +134,26 @@ As default Simmetrica connects to Redis on `127.0.0.1:6379` with database `0`.
 
 #####In commandline and REST
 
-`redis_host`, `redis_port`, `redis_db` and `redis_password` parameters can be passed as commandline arguments in `app.py` and `cli.py`.
+`redis_host`, `redis_port`, `redis_db` and `redis_password` parameters can be passed as commandline arguments in `simmetrica-app.py` and `simmetrica-cli.py`.
 
-    ➜ python cli.py ... --redis_host=192.168.5.30 --redis_port=7000 --redis_db=16 --redis_password=qwerty
+    ➜ simmetrica-cli.py ... --redis_host=192.168.5.30 --redis_port=7000 --redis_db=16 --redis_password=qwerty
 
 ###Dashboard
 
 #####Running web application
 
-    ➜ python app.py
+    ➜ simmetrica-app.py
      * Running on http://127.0.0.1:5000/
 
 Now, you can see your shiny dashboard with pointing your browser to `http://127.0.0.1:5000/`.
 
 Optionally a custom config file can be specified with the `--config` flag.
 
-    ➜ python app.py --config myConfig.yml
+    ➜ simmetrica-app.py --config myConfig.yml
 
 #####Configuring dashboard blocks
 
-Dashboard is configured with `config.yml` file, this file has a yaml list called `graphs`. Graph widgets are rendered with lovely [rickshaw](https://github.com/shutterstock/rickshaw) (HTML5 + SVG and d3.js) library.
+Dashboard is configured with `/opt/simmetrica/config/config.yml` file, this file has a yaml list called `graphs`. Graph widgets are rendered with lovely [rickshaw](https://github.com/shutterstock/rickshaw) (HTML5 + SVG and d3.js) library.
 
     graphs:
         - graph definition
@@ -279,12 +275,21 @@ This is the name of event, must be given.
 
 Title of event, this will be shown in legend and not a mandatory value.
 
+###Uninstall
+
+    ➜ [sudo] pip uninstall simmetrica
+    ➜ rm -rfv /opt/simmetrica
+
+###Credits
+
+Special thanks to [Dougal Matthews](https://github.com/d0ugal) for making this project Python 3 compatible.
+
 ###Contributing
 
-I just created this project for learning some Python. Please help me to make it better!
+I just created this project for learning some Python. Please help me to make it better! Don't hesitate to open an issue for asking something or creating a pull request for a new feature. Thanks!
 
 ###License
-Copyright (c) 2013 Osman Ungur
+Copyright (c) 2013-2014 Osman Ungur
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
