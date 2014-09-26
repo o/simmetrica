@@ -16,6 +16,9 @@ data_files = [
     ('/opt/simmetrica/templates', glob('templates/*')),
 ]
 
+if os.environ.get('TRAVIS_BUILD_DIR'):
+    data_files = []
+
 setup(
     name="simmetrica",
     version="1.0.2",
